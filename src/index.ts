@@ -33,12 +33,13 @@ app.post('/api/jwt/register', async (req, res) => {
         userDTO.age = body.age;
 
         const result: User = await userRepository.save(userDTO);
-
-        authenticationDTO.user = EntityToDTO.userToDTO(result);
-        authenticationDTO.token = await JWT.generateTokenAndRefreshToken(
+        const tokenAndRefreshToken = await JWT.generateTokenAndRefreshToken(
             result,
         );
-        authenticationDTO.refreshToken = '';
+
+        authenticationDTO.user = EntityToDTO.userToDTO(result);
+        authenticationDTO.token = tokenAndRefreshToken.token;
+        authenticationDTO.refreshToken = tokenAndRefreshToken.refreshToken;
 
         res.json(authenticationDTO);
     } catch (error) {
