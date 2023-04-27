@@ -32,4 +32,40 @@ export class JWT {
             refreshToken: result.id,
         };
     }
+
+    public static getJwtPayloadValueKey(token: string, key: string) {
+        const decodedToken = jwt.decode(token);
+        return decodedToken[key];
+    }
+
+    public static isTokenValid(token: string): boolean {
+        try {
+            jwt.verify(token, this.JWT_SECRET, {
+                ignoreExpiration: false,
+            });
+
+            return true;
+        } catch (error) {
+            return false;
+        }
+    }
+
+    public static isRefreshTokenLinkedToToken(
+        refreshToken: RefreshToken,
+        jwtId: string,
+    ): boolean {
+        if (refreshToken.jwtId !== jwtId) return false;
+        return true;
+    }
+
+    public static isRefreshTokenExpired(refreshToken: RefreshToken): boolean {
+        if (moment().isAfter(refreshToken.expiryDate)) return true;
+        return false;
+    }
+
+    public static isRefreshTokenUsedOrInvalid(
+        refreshToken: RefreshToken,
+    ): boolean {
+        return refreshToken.used || refreshToken.invalidated;
+    }
 }
