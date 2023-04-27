@@ -62,7 +62,12 @@ app.post('/api/jwt/login', async (req, res) => {
         const userRepository = AppDataSource.getRepository(User);
         const result = await userRepository.findOneBy({ email: body.email });
         if (!result) throw new Error('Email does not exist');
-        if (PasswordHash.isPasswordValid(body.password, result.password))
+        if (
+            !(await PasswordHash.isPasswordValid(
+                body.password,
+                result.password,
+            ))
+        )
             throw new Error('Password is not match');
         const tokenAndRefreshToken = await JWT.generateTokenAndRefreshToken(
             result,
@@ -107,7 +112,6 @@ app.post('/api/jwt/refresh-token', async (req, res) => {
             id: JWT.getJwtPayloadValueKey(body.token, 'id'),
         });
         const tokenResult = await JWT.generateTokenAndRefreshToken(userResult);
-
         const authenticationDTO: AuthenticationDTO = new AuthenticationDTO();
         authenticationDTO.user = EntityToDTO.userToDTO(userResult);
         authenticationDTO.token = tokenResult.token;

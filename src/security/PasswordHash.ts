@@ -6,7 +6,10 @@ export class PasswordHash {
         return bcrypt.hash(password, salt);
     }
 
-    public static isPasswordValid(password: string, hashedPassword: string) {
-        return bcrypt.compare(password, hashedPassword);
+    public static async isPasswordValid(
+        password: string,
+        hashedPassword: string,
+    ) {
+        return await bcrypt.compare(password, hashedPassword);
     }
 }
