@@ -49,7 +49,30 @@ app.post('/api/jwt/register', async (req, res) => {
     }
 });
 
-app.post('/api/jwt/login', (req, res) => {});
+app.post('/api/jwt/login', async (req, res) => {
+    try {
+        const body: LoginDTO = req.body;
+        const userRepository = AppDataSource.getRepository(User);
+        const result = await userRepository.findOneBy({ email: body.email });
+        if (!result) throw new Error('Email does not exist');
+        if (PasswordHash.isPasswordValid(body.password, result.password))
+            throw new Error('Password is not match');
+        const tokenAndRefreshToken = await JWT.generateTokenAndRefreshToken(
+            result,
+        );
+        const authenticationDTO: AuthenticationDTO = new AuthenticationDTO();
+        authenticationDTO.user = EntityToDTO.userToDTO(result);
+        authenticationDTO.token = tokenAndRefreshToken.token;
+        authenticationDTO.refreshToken = tokenAndRefreshToken.refreshToken;
+
+        res.json(authenticationDTO);
+    } catch (error) {
+        res.json({
+            message: error.message,
+        });
+    }
+});
+
 app.post('/api/jwt/refresh-token', (req, res) => {});
 
 app.listen(port, () => console.log('App listening on port ' + port));

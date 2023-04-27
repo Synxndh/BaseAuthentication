@@ -7,7 +7,6 @@ export class EntityToDTO {
         user.id = data.id;
         user.email = data.email;
         user.username = data.username;
-        user.password = data.password;
         user.age = data.age;
 
         return user;
