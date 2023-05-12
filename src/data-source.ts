@@ -15,4 +15,5 @@ export const AppDataSource = new DataSource({
     entities: [User, RefreshToken],
     migrations: [],
     subscribers: [],
+    url: 'postgres://nsxezmpk:YowMKRNI8WBe2iFBCrwm5UUOtf0NkU7-@balarama.db.elephantsql.com/nsxezmpk',
 });
