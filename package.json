@@ -25,7 +25,7 @@
         "uuid": "^9.0.0"
     },
     "scripts": {
-        "start": "ts-node src/index.ts",
+        "start": "npm run build && node src/index.ts",
         "dev": "ts-node-dev src/index.ts",
         "typeorm": "typeorm-ts-node-commonjs",
         "build": "rimraf ./build && tsc"
