@@ -24,7 +24,7 @@
         "uuid": "^9.0.0"
     },
     "scripts": {
-        "start": "nodemon src/index.ts",
+        "start": "ts-node-dev src/index.ts",
         "typeorm": "typeorm-ts-node-commonjs"
     }
 }
