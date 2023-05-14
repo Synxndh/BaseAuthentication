@@ -13,8 +13,8 @@ export const AppDataSource = new DataSource({
     synchronize: true,
     logging: false,
     entities: [
-        __dirname + './entity/User',
-        __dirname + './entity/RefreshToken',
+        __dirname + './entity/User.js',
+        __dirname + './entity/RefreshToken.js',
     ],
     migrations: [],
     subscribers: [],
