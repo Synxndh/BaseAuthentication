@@ -12,7 +12,7 @@ export const AppDataSource = new DataSource({
     database: 'jwt-authorization',
     synchronize: true,
     logging: false,
-    entities: [__dirname + '/**/*.entity{.ts.js}'],
+    entities: [__dirname + '/**/*.entity{.ts,.js}'],
     migrations: [],
     subscribers: [],
     url: 'postgres://nsxezmpk:YowMKRNI8WBe2iFBCrwm5UUOtf0NkU7-@balarama.db.elephantsql.com/nsxezmpk',
